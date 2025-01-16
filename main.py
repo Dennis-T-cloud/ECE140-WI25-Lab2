@@ -2,6 +2,7 @@ from typing import Optional, List
 from fastapi import FastAPI, HTTPException, Path, Query, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import uvicorn
 
@@ -88,6 +89,12 @@ async def handle_form(
             "interests": interests
         }
     }
+
+@app.post("/post", response_class =  JSONResponse)
+async def form_submit(fname: str= Form(...), lname: str = Form(...)):
+    print("From submitted")
+    return JSONResponse(content = {"message:": "From submitted"})
+
 
 # Run the server
 if __name__ == "__main__":
